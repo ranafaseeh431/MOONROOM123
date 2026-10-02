@@ -1,20 +1,8 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
-// ============================================
-// FIREBASE CONFIG
-// Paste the firebaseConfig object from Firebase
-// Console between these braces.
-// ============================================
-const firebaseConfig = {
- // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCgAfkLfPA6iqdSli7ookB0qaBkTKNu2Mc",
   authDomain: "moonroom-8f6ab.firebaseapp.com",
@@ -22,16 +10,15 @@ const firebaseConfig = {
   storageBucket: "moonroom-8f6ab.firebasestorage.app",
   messagingSenderId: "849520937657",
   appId: "1:849520937657:web:af76383b421afcfeff6968",
-  measurementId: "G-XXK7TLX4S6"
+  measurementId: "G-XXK7TLX4S6",
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-// ============================================
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+
 export enum OperationType {
   CREATE = 'create',
   UPDATE = 'update',
@@ -40,6 +27,7 @@ export enum OperationType {
   GET = 'get',
   WRITE = 'write',
 }
+
 export interface FirestoreErrorInfo {
   error: string;
   operationType: OperationType;
@@ -56,6 +44,7 @@ export interface FirestoreErrorInfo {
     }[];
   };
 }
+
 export function handleFirestoreError(
   error: unknown,
   operationType: OperationType,
@@ -78,11 +67,13 @@ export function handleFirestoreError(
     operationType,
     path,
   };
+
   console.warn(
     'Firestore Operation Notice: ',
     JSON.stringify(errInfo)
   );
 }
+
 async function testConnection() {
   try {
     await getDocFromServer(doc(db, 'test', 'connection'));
@@ -97,4 +88,5 @@ async function testConnection() {
     }
   }
 }
+
 testConnection();
