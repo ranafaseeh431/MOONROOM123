@@ -1,0 +1,158 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document containing account info, display username, and authentication details.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user.",
+          "maxLength": 128
+        },
+        "username": {
+          "type": "string",
+          "description": "Chosen Moonroom display username.",
+          "maxLength": 50
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address.",
+          "maxLength": 150
+        },
+        "authProvider": {
+          "type": "string",
+          "description": "Authentication method used (e.g. google, email).",
+          "enum": ["google", "email"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp or server timestamp string of account creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp or server timestamp string of last profile update."
+        }
+      },
+      "required": ["id", "username", "email"]
+    },
+    "UserFavorite": {
+      "title": "UserFavorite",
+      "description": "An exercise saved to the user's quiet places.",
+      "type": "object",
+      "properties": {
+        "exerciseId": {
+          "type": "string",
+          "description": "ID of the favorited exercise.",
+          "maxLength": 100
+        },
+        "addedAt": {
+          "type": "number",
+          "description": "Timestamp in milliseconds when favorited."
+        }
+      },
+      "required": ["exerciseId"]
+    },
+    "UserRecentSession": {
+      "title": "UserRecentSession",
+      "description": "Record of a completed or practiced exercise session.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique session ID.",
+          "maxLength": 128
+        },
+        "exerciseId": {
+          "type": "string",
+          "description": "ID of the exercise practiced.",
+          "maxLength": 100
+        },
+        "exerciseTitle": {
+          "type": "string",
+          "description": "Human-readable title of the exercise.",
+          "maxLength": 150
+        },
+        "category": {
+          "type": "string",
+          "description": "Category ID of the exercise.",
+          "maxLength": 50
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Timestamp in milliseconds when session took place."
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the session was completed."
+        },
+        "feedback": {
+          "type": "string",
+          "description": "Optional post-session feedback.",
+          "enum": ["better", "same", "not_for_me"]
+        }
+      },
+      "required": ["id", "exerciseId", "exerciseTitle", "category", "timestamp"]
+    },
+    "UserFeedback": {
+      "title": "UserFeedback",
+      "description": "Private rating and feeling feedback for an exercise.",
+      "type": "object",
+      "properties": {
+        "exerciseId": {
+          "type": "string",
+          "description": "ID of the exercise.",
+          "maxLength": 100
+        },
+        "feedback": {
+          "type": "string",
+          "description": "Subjective feeling response.",
+          "enum": ["better", "same", "not_for_me"]
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Timestamp in milliseconds when updated."
+        }
+      },
+      "required": ["exerciseId", "feedback"]
+    },
+    "UserPreferencesSettings": {
+      "title": "UserPreferencesSettings",
+      "description": "General user preference flags such as dismissed suggestions.",
+      "type": "object",
+      "properties": {
+        "dismissedNightlySuggestionDate": {
+          "type": "string",
+          "description": "Date string of dismissed suggestion.",
+          "maxLength": 50
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Timestamp in milliseconds of update."
+        }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Root user profile document."
+    },
+    "/users/{userId}/favorites/{exerciseId}": {
+      "schema": "UserFavorite",
+      "description": "Subcollection of favorited exercises for the user."
+    },
+    "/users/{userId}/recent/{sessionId}": {
+      "schema": "UserRecentSession",
+      "description": "Subcollection of recent quiet sessions practiced by the user."
+    },
+    "/users/{userId}/feedback/{exerciseId}": {
+      "schema": "UserFeedback",
+      "description": "Subcollection storing user feedback ratings for exercises."
+    },
+    "/users/{userId}/preferences/{settingId}": {
+      "schema": "UserPreferencesSettings",
+      "description": "Settings and preferences documents for the user."
+    }
+  }
+}
