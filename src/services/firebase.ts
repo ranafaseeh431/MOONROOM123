@@ -1,20 +1,36 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+// ============================================
+// FIREBASE CONFIG
+// Paste the firebaseConfig object from Firebase
+// Console between these braces.
+// ============================================
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || undefined,
+ // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCgAfkLfPA6iqdSli7ookB0qaBkTKNu2Mc",
+  authDomain: "moonroom-8f6ab.firebaseapp.com",
+  projectId: "moonroom-8f6ab",
+  storageBucket: "moonroom-8f6ab.firebasestorage.app",
+  messagingSenderId: "849520937657",
+  appId: "1:849520937657:web:af76383b421afcfeff6968",
+  measurementId: "G-XXK7TLX4S6"
 };
-const databaseId = import.meta.env.VITE_FIREBASE_DATABASE_ID || undefined;
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+// ============================================
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-export const db = databaseId
-  ? getFirestore(app, databaseId)
-  : getFirestore(app);
+export const db = getFirestore(app);
 export const auth = getAuth(app);
 export enum OperationType {
   CREATE = 'create',
