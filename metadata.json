@@ -1,0 +1,6 @@
+{
+  "name": "Moonroom",
+  "description": "A quiet place for a restless mind. A private nighttime wellness and relaxation space for unwinding and sleep.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
