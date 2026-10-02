@@ -133,12 +133,27 @@ export const ExercisePlayer: React.FC<ExercisePlayerProps> = ({
               />
             )}
 
-            {(exercise.type === 'progressive_relaxation' || exercise.type === 'body_scan') && (
+            {exercise.type === 'progressive_relaxation' && (
               <RelaxationEngine
                 exercise={exercise}
                 isPaused={isPaused}
                 onComplete={handleFinishExercise}
               />
+            )}
+
+            {exercise.type === 'body_scan' && (
+              exercise.steps && exercise.steps.length > 0 ? (
+                <SteppedRoutineEngine
+                  exercise={exercise}
+                  onComplete={handleFinishExercise}
+                />
+              ) : (
+                <RelaxationEngine
+                  exercise={exercise}
+                  isPaused={isPaused}
+                  onComplete={handleFinishExercise}
+                />
+              )
             )}
 
             {exercise.type === 'guided_imagery' && (

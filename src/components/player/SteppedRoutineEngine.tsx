@@ -71,21 +71,35 @@ export const SteppedRoutineEngine: React.FC<SteppedRoutineEngineProps> = ({
           <span>Previous</span>
         </button>
 
-        {/* Step dots */}
-        <div className="flex items-center gap-1.5">
-          {steps.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === currentIndex
-                  ? 'w-6 bg-[#c4b5fd]'
-                  : i < currentIndex
-                  ? 'w-2 bg-white/40'
-                  : 'w-2 bg-white/10'
-              }`}
-            />
-          ))}
-        </div>
+        {/* Step dots or progress bar */}
+        {steps.length <= 8 ? (
+          <div className="flex items-center gap-1.5">
+            {steps.map((_, i) => (
+              <div
+                key={i}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === currentIndex
+                    ? 'w-6 bg-[#c4b5fd]'
+                    : i < currentIndex
+                    ? 'w-2 bg-white/40'
+                    : 'w-2 bg-white/10'
+                }`}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-1 w-28 sm:w-36">
+            <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#c4b5fd] rounded-full transition-all duration-300"
+                style={{ width: `${((currentIndex + 1) / steps.length) * 100}%` }}
+              />
+            </div>
+            <span className="text-[10px] text-[#9aa2b5] font-mono tabular-nums">
+              {currentIndex + 1} of {steps.length}
+            </span>
+          </div>
+        )}
 
         <button
           onClick={handleNext}

@@ -7,6 +7,7 @@ import {
   recordSession,
   recordFeedback,
   savePreferences,
+  syncPreferencesWithFirestore,
 } from './services/storage';
 import { getCurrentUser, logout } from './services/auth';
 import { NightSkyBackground } from './components/NightSkyBackground';
@@ -36,6 +37,11 @@ export default function App() {
   // Keep preferences in sync when user logs in or switches
   useEffect(() => {
     setPreferences(loadPreferences(currentUser?.id));
+    if (currentUser?.id) {
+      syncPreferencesWithFirestore(currentUser.id).then((synced) => {
+        setPreferences(synced);
+      }).catch(() => {});
+    }
   }, [currentUser?.id]);
 
   const refreshPreferences = () => {

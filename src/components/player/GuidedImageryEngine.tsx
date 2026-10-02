@@ -185,20 +185,34 @@ export const GuidedImageryEngine: React.FC<GuidedImageryEngineProps> = ({
           <span className="hidden sm:inline">Previous</span>
         </button>
 
-        <div className="flex items-center gap-1.5">
-          {narrative.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1 rounded-full transition-all duration-300 ${
-                i === cardIndex
-                  ? 'w-6 bg-[#c4b5fd]'
-                  : i < cardIndex
-                  ? 'w-2 bg-white/30'
-                  : 'w-2 bg-white/10'
-              }`}
-            />
-          ))}
-        </div>
+        {narrative.length <= 8 ? (
+          <div className="flex items-center gap-1.5">
+            {narrative.map((_, i) => (
+              <div
+                key={i}
+                className={`h-1 rounded-full transition-all duration-300 ${
+                  i === cardIndex
+                    ? 'w-6 bg-[#c4b5fd]'
+                    : i < cardIndex
+                    ? 'w-2 bg-white/30'
+                    : 'w-2 bg-white/10'
+                }`}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-1 w-28 sm:w-36">
+            <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#c4b5fd] rounded-full transition-all duration-300"
+                style={{ width: `${((cardIndex + 1) / narrative.length) * 100}%` }}
+              />
+            </div>
+            <span className="text-[10px] text-[#9aa2b5] font-mono tabular-nums">
+              {cardIndex + 1} of {narrative.length}
+            </span>
+          </div>
+        )}
 
         <button
           onClick={handleNext}
